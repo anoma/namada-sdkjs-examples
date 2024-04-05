@@ -2,7 +2,13 @@ import { getSdk } from "@namada/sdk/web";
 import init from "@namada/sdk/web-init";
 import BigNumber from "bignumber.js";
 
-import { NODE_URL, NATIVE_TOKEN, SIGNING_KEY, CHAIN_ID } from "../common";
+import {
+  NODE_URL,
+  NATIVE_TOKEN,
+  SIGNING_KEY,
+  CHAIN_ID,
+  STORAGE_PATH,
+} from "../common";
 
 export const submitTransfer = async (): Promise<void> => {
   const txMsgValue = {
@@ -23,13 +29,19 @@ export const submitTransfer = async (): Promise<void> => {
 
   try {
     const { cryptoMemory } = await init();
-    const sdk = await getSdk(cryptoMemory, NODE_URL, NATIVE_TOKEN);
+    const sdk = getSdk(cryptoMemory, NODE_URL, STORAGE_PATH, NATIVE_TOKEN);
 
     await sdk.tx.revealPk(SIGNING_KEY, txMsgValue);
     const encodedTx = await sdk.tx.buildTransfer(txMsgValue, transferMsgValue);
     const signedTx = await sdk.tx.signTx(encodedTx, SIGNING_KEY);
 
     await sdk.rpc.broadcastTx(signedTx);
+
+    const balance = await sdk.rpc.queryBalance(
+      "tnam1qz4sdx5jlh909j44uz46pf29ty0ztftfzc98s8dx",
+      [NATIVE_TOKEN],
+    );
+    console.log("Balance:", balance);
   } catch (error) {
     console.error("Error:", error);
   }

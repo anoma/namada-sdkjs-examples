@@ -1,5 +1,5 @@
 {
-  "name": "@namada/sdk-examples",
+  "name": "@heliax/namada-sdkjs-examples",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
