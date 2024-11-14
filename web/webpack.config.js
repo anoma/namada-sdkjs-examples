@@ -25,6 +25,12 @@ module.exports = {
     fallback: {
       buffer: require.resolve("buffer"),
     },
+    alias: {
+      "../package.json": path.resolve(
+        __dirname,
+        "../node_modules/@heliaxdev/namada-sdk/package.json",
+      ),
+    },
   },
   devServer: {
     static: [
