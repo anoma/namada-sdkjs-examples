@@ -1,5 +1,6 @@
-import { getSdk } from "@namada/sdk/node";
-import init from "@namada/sdk/node-init";
+import { getSdk } from "@heliaxdev/namada-sdk/node";
+import init from "@heliaxdev/namada-sdk/node-init";
+import { BondProps, WrapperTxProps } from "@namada/types";
 import BigNumber from "bignumber.js";
 
 import {
@@ -10,8 +11,8 @@ import {
   STORAGE_PATH,
 } from "../common";
 
-export const submitTransfer = async (): Promise<void> => {
-  const txMsgValue = {
+export const submitBond = async (): Promise<void> => {
+  const wrapperTxProps: WrapperTxProps = {
     token: NATIVE_TOKEN,
     feeAmount: BigNumber(5),
     gasLimit: BigNumber(20_000),
@@ -19,12 +20,10 @@ export const submitTransfer = async (): Promise<void> => {
     publicKey:
       "tpknam1qzz3nvg5zjwdpk5z0x9ngkf7guv9qpqrtz0da7weenwl5766pkkgvvt689t",
   };
-  const transferMsgValue = {
+  const bondProps: BondProps = {
     source: "tnam1qqshvryx9pngpk7mmzpzkjkm6klelgusuvmkc0uz",
-    target: "tnam1qz4sdx5jlh909j44uz46pf29ty0ztftfzc98s8dx",
-    token: NATIVE_TOKEN,
+    validator: "tnam1qz4sdx5jlh909j44uz46pf29ty0ztftfzc98s8dx",
     amount: BigNumber(100),
-    nativeToken: NATIVE_TOKEN,
   };
 
   try {
@@ -32,17 +31,21 @@ export const submitTransfer = async (): Promise<void> => {
 
     const sdk = getSdk(cryptoMemory, NODE_URL, STORAGE_PATH, NATIVE_TOKEN);
 
-    await sdk.tx.revealPk(SIGNING_KEY, txMsgValue);
-    const encodedTx = await sdk.tx.buildTransfer(txMsgValue, transferMsgValue);
-    const signedTx = await sdk.tx.signTx(encodedTx, SIGNING_KEY);
+    const revealPkTx = await sdk.tx.buildRevealPk(wrapperTxProps);
+    const signedRevealPkTx = await sdk.signing.sign(revealPkTx, SIGNING_KEY);
+    const bondTx = await sdk.tx.buildBond(wrapperTxProps, bondProps);
+    const signedBondTx = await sdk.signing.sign(bondTx, SIGNING_KEY);
 
-    await sdk.rpc.broadcastTx(signedTx);
+    // Reveal the public key on chain if it hasn't previously been used
+    await sdk.rpc.broadcastTx(signedRevealPkTx, wrapperTxProps);
+    await sdk.rpc.broadcastTx(signedBondTx, wrapperTxProps);
 
     const balance = await sdk.rpc.queryBalance(
       "tnam1qz4sdx5jlh909j44uz46pf29ty0ztftfzc98s8dx",
       [NATIVE_TOKEN],
     );
-    console.log("Balance:", balance);
+
+    console.log("received balance: ", balance);
 
     process.exit(0);
   } catch (error) {
@@ -50,4 +53,4 @@ export const submitTransfer = async (): Promise<void> => {
   }
 };
 
-submitTransfer();
+submitBond();

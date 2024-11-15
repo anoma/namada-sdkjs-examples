@@ -20,16 +20,22 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".ts", ".js"],
     modules: [path.join(__dirname, "src/"), "node_modules"],
     fallback: {
       buffer: require.resolve("buffer"),
+    },
+    alias: {
+      "../package.json": path.resolve(
+        __dirname,
+        "../node_modules/@heliaxdev/namada-sdk/package.json",
+      ),
     },
   },
   devServer: {
     static: [
       path.join(__dirname, "public"),
-      path.join(__dirname, "..", "node_modules", "@namada", "sdk", "dist"),
+      path.join(__dirname, "node_modules", "@heliaxdev", "namada-sdk", "dist"),
     ],
     compress: true,
     port: 9000,
