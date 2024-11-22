@@ -35,7 +35,14 @@ module.exports = {
   devServer: {
     static: [
       path.join(__dirname, "public"),
-      path.join(__dirname, "node_modules", "@heliaxdev", "namada-sdk", "dist"),
+      path.join(
+        __dirname,
+        "..",
+        "node_modules",
+        "@heliaxdev",
+        "namada-sdk",
+        "dist",
+      ),
     ],
     compress: true,
     port: 9000,
