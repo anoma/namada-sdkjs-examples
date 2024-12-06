@@ -1,5 +1,5 @@
-import { getSdk } from "@heliaxdev/namada-sdk/node";
-import init from "@heliaxdev/namada-sdk/node-init";
+import { getSdk } from "@namada/sdk/web";
+import init from "@namada/sdk/web-init";
 import { BondProps, WrapperTxProps } from "@namada/types";
 import BigNumber from "bignumber.js";
 
@@ -27,9 +27,14 @@ export const submitBond = async (): Promise<void> => {
   };
 
   try {
-    const { cryptoMemory } = init();
-
-    const sdk = getSdk(cryptoMemory, NODE_URL, STORAGE_PATH, NATIVE_TOKEN);
+    const { cryptoMemory } = await init();
+    const sdk = getSdk(
+      cryptoMemory,
+      NODE_URL,
+      "masp_indexer_url",
+      STORAGE_PATH,
+      NATIVE_TOKEN,
+    );
 
     const revealPkTx = await sdk.tx.buildRevealPk(wrapperTxProps);
     const signedRevealPkTx = await sdk.signing.sign(revealPkTx, SIGNING_KEY);
@@ -37,17 +42,29 @@ export const submitBond = async (): Promise<void> => {
     const signedBondTx = await sdk.signing.sign(bondTx, SIGNING_KEY);
 
     // Reveal the public key on chain if it hasn't previously been used
-    await sdk.rpc.broadcastTx(signedRevealPkTx, wrapperTxProps);
-    await sdk.rpc.broadcastTx(signedBondTx, wrapperTxProps);
+    const revealPkResponse = await sdk.rpc.broadcastTx(
+      signedRevealPkTx,
+      wrapperTxProps,
+    );
+    const bondTxResponse = await sdk.rpc.broadcastTx(
+      signedBondTx,
+      wrapperTxProps,
+    );
+
+    console.log(
+      `Result of broadcasting RevealPK Tx for ${wrapperTxProps.publicKey}`,
+      revealPkResponse,
+    );
+    console.log(
+      `Result of broadcasting Bond Tx ${bondTx.hash}`,
+      bondTxResponse,
+    );
 
     const balance = await sdk.rpc.queryBalance(
       "tnam1qz4sdx5jlh909j44uz46pf29ty0ztftfzc98s8dx",
       [NATIVE_TOKEN],
     );
-
-    console.log("received balance: ", balance);
-
-    process.exit(0);
+    console.log("Balance:", balance);
   } catch (error) {
     console.error("Error:", error);
   }
