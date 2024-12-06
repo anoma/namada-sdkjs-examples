@@ -9,7 +9,7 @@ import {
   SIGNING_KEY,
   CHAIN_ID,
   STORAGE_PATH,
-} from "../common";
+} from "./config";
 
 export const submitBond = async (): Promise<void> => {
   const wrapperTxProps: WrapperTxProps = {
