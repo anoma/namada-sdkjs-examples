@@ -146,17 +146,17 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
-"@namada/sdk@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@namada/sdk/-/sdk-0.12.0.tgz#74ae49a0671c6a6e979c5df4a699afcfe781d356"
-  integrity sha512-zV67PJDSzqM0i/xaKacXQx5/ivMDZnmLLbvkpl7wLlcadwVdUYvlJuOcicRxA6XtPavFyN6nE9tIh7PBnxR5pg==
+"@namada/sdk@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@namada/sdk/-/sdk-0.13.0.tgz#476d776dfb02d27ef37d729f5c808cf9681e6359"
+  integrity sha512-H2Z5iNnjSzVYFCVXnH+Zyk+uU215vLHj7yUw1zzqksLJexGe95mlaKAInIiRYNd6Q6fqUoZeTOEv+o0zldlZoQ==
   dependencies:
     "@cosmjs/encoding" "^0.29.0"
     "@dao-xyz/borsh" "^5.1.5"
     "@ledgerhq/hw-transport" "^6.30.0"
     "@ledgerhq/hw-transport-webhid" "^6.28.0"
     "@ledgerhq/hw-transport-webusb" "^6.28.0"
-    "@zondax/ledger-namada" "^0.0.6"
+    "@zondax/ledger-namada" "^1.0.0"
     bignumber.js "^9.1.1"
     buffer "^6.0.3"
     slip44 "^3.0.18"
@@ -552,10 +552,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zondax/ledger-namada@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@zondax/ledger-namada/-/ledger-namada-0.0.6.tgz#c977d7fbce2bf896cd3a465cbc52a81cb01cd48c"
-  integrity sha512-joLuL6aqcYU+Lxisi25uCi0Amzvt7++/MOE8LwB7H6ldfrVcABN2m63LW/sC8AfMCGOFGrfFa2zoOYeipf9H/Q==
+"@zondax/ledger-namada@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@zondax/ledger-namada/-/ledger-namada-1.0.0.tgz#ff013d408d95cfb3e34b413eb0b8944aaf698adf"
+  integrity sha512-FevLNX7U/8kolnnxB4V/2Gm46+btfkt00jVOUVuI0n7v0J9J+CLldUEhZBd2o9rl6cQI5J3FEOepQR85cVRAWQ==
   dependencies:
     "@ledgerhq/hw-transport" "^6.30.6"
 
